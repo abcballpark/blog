@@ -17,7 +17,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
           <NavbarBrand></NavbarBrand>
           <NavbarContent>
             <NavbarItem>
-              <NavbarLink isActive aria-current="page" href="#">
+              <NavbarLink isActive aria-current="page" href="/">
                 Home
               </NavbarLink>
             </NavbarItem>
