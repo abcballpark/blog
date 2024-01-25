@@ -21,18 +21,18 @@ export function PostList() {
       <StructuredList>
         {getPosts.data?.map((post) => (
           <StructuredListItem
-            key={post.id}
-            onClick={() => router.push(post.slug || "#")}
+            key={post.data.slug}
+            onClick={() => router.push(post.data.slug || "#")}
           >
             <StructuredListCell>
-              <Text fontWeight="bold">{post.title}</Text>
+              <Text fontWeight="bold">{post.data.title}</Text>
               <Text fontSize="md" noOfLines={1}>
-                {post.subtitle}
+                {post.data.subtitle}
               </Text>
             </StructuredListCell>
             <StructuredListCell>
               <Tag>
-                <TimeAgo datetime={post.created} />
+                <TimeAgo datetime={post.data.created} />
               </Tag>
             </StructuredListCell>
           </StructuredListItem>
