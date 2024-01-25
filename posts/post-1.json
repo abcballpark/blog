@@ -1,5 +1,7 @@
 {
   "id": 1,
   "title": "Post #1",
+  "created": "2013-01-01T00:00:00Z",
+  "subtitle": "The first in a series",
   "body": "This is post #1. Isn't it great?"
 }

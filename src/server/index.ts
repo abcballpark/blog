@@ -1,12 +1,7 @@
 import { publicProcedure, router } from "./trpc";
 import fs from "fs";
 import path from "path";
-
-interface Post {
-  id: string;
-  title: string;
-  body: string;
-}
+import type { Post } from "@/model";
 
 /**
  * Loads and returns an array of posts from the "./posts" directory.
@@ -18,7 +13,10 @@ const loadPosts = (): Post[] => {
     .map((file) => {
       const filePath = path.join("./posts", file);
       const fileContents = fs.readFileSync(filePath, "utf8");
-      const jsonData = JSON.parse(fileContents);
+      const jsonData = {
+        ...JSON.parse(fileContents),
+        slug: path.basename(file, ".json"),
+      } as Post;
       return jsonData;
     });
   return posts;
