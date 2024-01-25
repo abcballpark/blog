@@ -14,6 +14,7 @@ const POST_DIR = "./posts";
  */
 const loadPosts = () => {
   console.log(process.cwd());
+  console.log(fs.readFileSync(process.cwd()));
   const posts = fs
     .readdirSync(POST_DIR)
     .filter((file) => path.extname(file) === POST_EXT)
