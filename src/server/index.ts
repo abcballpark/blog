@@ -13,6 +13,7 @@ const POST_DIR = "../../posts";
  * Loads and returns an array of posts from the "./posts" directory.
  */
 const loadPosts = () => {
+  console.log(process.cwd());
   const posts = fs
     .readdirSync(POST_DIR)
     .filter((file) => path.extname(file) === POST_EXT)
