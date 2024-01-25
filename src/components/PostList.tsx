@@ -1,8 +1,8 @@
 "use client";
 
-import { trpc } from "../_trpc/client";
+import { trpc } from "@/trpc";
 
-export default function PostList() {
+export function PostList() {
   const getPosts = trpc.getPosts.useQuery();
 
   return (

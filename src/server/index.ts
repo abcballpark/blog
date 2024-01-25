@@ -5,7 +5,7 @@ import path from "path";
 interface Post {
   id: string;
   title: string;
-  content: string;
+  body: string;
 }
 
 /**
