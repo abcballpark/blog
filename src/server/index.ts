@@ -1,19 +1,32 @@
 import { publicProcedure, router } from "./trpc";
+import fs from "fs";
+import path from "path";
+
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+}
+
+/**
+ * Loads and returns an array of posts from the "./posts" directory.
+ */
+const loadPosts = (): Post[] => {
+  const posts = fs
+    .readdirSync("./posts")
+    .filter((file) => path.extname(file) === ".json")
+    .map((file) => {
+      const filePath = path.join("./posts", file);
+      const fileContents = fs.readFileSync(filePath, "utf8");
+      const jsonData = JSON.parse(fileContents);
+      return jsonData;
+    });
+  return posts;
+};
 
 export const appRouter = router({
   getPosts: publicProcedure.query(async (a) => {
-    return [
-      {
-        id: 1,
-        title: "Post 1",
-        body: "This is Post #1. Isn't it great?",
-      },
-      {
-        id: 2,
-        title: "Post 2",
-        body: "This is Post #2. Isn't it marvelous?",
-      },
-    ];
+    return loadPosts();
   }),
 });
 
