@@ -20,7 +20,7 @@ const loadPosts = () => {
 };
 
 const loadPostBySlug = (slug: string) => {
-  const filePath = path.join("./posts", slug + POST_EXT);
+  const filePath = path.join("../../posts", slug + POST_EXT);
   if (!fs.existsSync(filePath)) {
     throw new Error(`Post "${slug}" does not exist`);
   }
