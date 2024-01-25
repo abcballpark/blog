@@ -1,7 +1,5 @@
 "use client";
 
-import { useAuth } from "@saas-ui/auth";
-
 import {
   AppShell,
   Navbar,
@@ -15,8 +13,9 @@ import { Box, Button, Container } from "@chakra-ui/react";
 
 import { useRouter } from "next/navigation";
 
+import { UserButton, SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
+
 export function Navigation({ children }: { children: React.ReactNode }) {
-  const auth = useAuth();
   const router = useRouter();
 
   return (
@@ -39,11 +38,12 @@ export function Navigation({ children }: { children: React.ReactNode }) {
           </NavbarContent>
           <NavbarContent justifyContent="flex-end" spacing="2">
             <NavbarItem>
-              {auth.isAuthenticated ? (
-                <Button onClick={() => router.push("/auth")}>Login</Button>
-              ) : (
-                <Button onClick={() => auth.logOut()}>Logout</Button>
-              )}
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+              <SignedOut>
+                <SignInButton />
+              </SignedOut>
             </NavbarItem>
           </NavbarContent>
         </Navbar>
