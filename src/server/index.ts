@@ -7,20 +7,21 @@ import { z } from "zod";
 import type { Post } from "@/model";
 
 const POST_EXT = ".md";
+const POST_DIR = "../../posts";
 
 /**
  * Loads and returns an array of posts from the "./posts" directory.
  */
 const loadPosts = () => {
   const posts = fs
-    .readdirSync("./posts")
+    .readdirSync(POST_DIR)
     .filter((file) => path.extname(file) === POST_EXT)
     .map((file) => loadPostBySlug(path.basename(file, POST_EXT)));
   return posts;
 };
 
 const loadPostBySlug = (slug: string) => {
-  const filePath = path.join("../../posts", slug + POST_EXT);
+  const filePath = path.join(POST_DIR, slug + POST_EXT);
   if (!fs.existsSync(filePath)) {
     throw new Error(`Post "${slug}" does not exist`);
   }
