@@ -7,7 +7,7 @@ import { z } from "zod";
 import type { Post } from "@/model";
 
 const POST_EXT = ".md";
-const POST_DIR = "../../posts";
+const POST_DIR = "./posts";
 
 /**
  * Loads and returns an array of posts from the "./posts" directory.
