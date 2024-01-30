@@ -1,5 +1,5 @@
 import { TRPCError, initTRPC } from "@trpc/server";
-import { SignedInAuthObject, SignedOutAuthObject } from "@clerk/nextjs/server";
+import { SignedInAuthObject, SignedOutAuthObject, currentUser } from "@clerk/nextjs/server";
 import { NextRequest } from "next/server";
 
 import { db } from "@/db";
@@ -58,18 +58,22 @@ export const protectedProcedure = t.procedure.use(isAuthenticated);
 
 const isAuthor = t.middleware(({ next, ctx }) => {
   // Check if user is an author
-  if (!ctx.auth?.user?.publicMetadata?.author) {
-    throw new TRPCError({
-      code: "UNAUTHORIZED",
-      message: "You must be an author to do that.",
-    });
-  }
+  const isAuthor = currentUser().then((user) => {
+    if (!user) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "You must be an author to do that.",
+      });
+    }
+    return user.publicMetadata.author;
+  });
+
   return next({
     ctx: {
       auth: {
         ...ctx.auth,
         userId: ctx.auth.userId,
-        isAuthor: true,
+        isAuthor,
       },
     },
   });
