@@ -1,6 +1,5 @@
 import { TRPCError, initTRPC } from "@trpc/server";
 import { SignedInAuthObject, SignedOutAuthObject } from "@clerk/nextjs/server";
-import { VercelPgDatabase } from "drizzle-orm/vercel-postgres";
 import { NextRequest } from "next/server";
 
 import { db } from "@/db";
@@ -32,7 +31,7 @@ export const createTRPCContext = async (opts: {
   });
 };
 
-export const t = initTRPC.context<typeof createTRPCContext>().create({});
+export const t = initTRPC.context<typeof createTRPCContext>().create();
 
 export const router = t.router;
 

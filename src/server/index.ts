@@ -1,6 +1,6 @@
 import { authorProcedure, publicProcedure, router } from "./trpc";
 import { eq } from "drizzle-orm";
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { db, Posts } from "@/db";
 

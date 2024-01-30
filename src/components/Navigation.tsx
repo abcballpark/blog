@@ -9,18 +9,11 @@ import {
   NavbarLink,
 } from "@saas-ui/react";
 
-import { useUser } from "@clerk/nextjs";
-
-import { Box, Button, Container } from "@chakra-ui/react";
-
-import { useRouter } from "next/navigation";
+import { Box, Container } from "@chakra-ui/react";
 
 import { UserButton, SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 
 export function Navigation({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
-  const { isSignedIn, user, isLoaded } = useUser();
-
   return (
     <AppShell
       navbar={
@@ -61,7 +54,6 @@ export function Navigation({ children }: { children: React.ReactNode }) {
           flexDirection="column"
           margin="0 auto"
         >
-          <pre>{JSON.stringify(user?.publicMetadata)}</pre>
           {children}
         </Container>
       </Box>
