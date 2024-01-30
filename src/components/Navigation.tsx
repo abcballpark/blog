@@ -8,12 +8,15 @@ import {
   NavbarItem,
   NavbarLink,
 } from "@saas-ui/react";
-import { Box, Container } from "@chakra-ui/react";
-import { UserButton, SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
+import { Box, Container, Icon, IconButton, useColorMode } from "@chakra-ui/react";
+import { UserButton, SignedIn, SignedOut, SignInButton, useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
+import { MdOutlineLightMode, MdOutlineDarkMode } from "react-icons/md";
 
 export function Navigation({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const { user } = useUser();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <AppShell
@@ -31,6 +34,18 @@ export function Navigation({ children }: { children: React.ReactNode }) {
                 About
               </NavbarLink>
             </NavbarItem>
+            {
+              // Only show the New Post link if the user is logged in and has the author role
+              user?.publicMetadata?.author ? (
+                <NavbarItem>
+                  <NavbarLink isActive={pathname === "/posts/new"} href="/posts/new">
+                    New Post
+                  </NavbarLink>
+                </NavbarItem>
+              ) : (
+                <></>
+              )
+            }
           </NavbarContent>
           <NavbarContent justifyContent="flex-end" spacing="2">
             <NavbarItem>
@@ -40,6 +55,23 @@ export function Navigation({ children }: { children: React.ReactNode }) {
               <SignedOut>
                 <SignInButton />
               </SignedOut>
+            </NavbarItem>
+            <NavbarItem onClick={toggleColorMode}>
+              {colorMode === "dark" ? (
+                // Dark mode is on
+                <IconButton
+                  aria-label="Toggle light mode"
+                  icon={<MdOutlineLightMode />}
+                  variant="ghost"
+                />
+              ) : (
+                // Light mode is on
+                <IconButton
+                  aria-label="Toggle dark mode"
+                  icon={<MdOutlineDarkMode />}
+                  variant="ghost"
+                />
+              )}
             </NavbarItem>
           </NavbarContent>
         </Navbar>
