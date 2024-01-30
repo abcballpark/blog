@@ -48,14 +48,6 @@ export function Navigation({ children }: { children: React.ReactNode }) {
             }
           </NavbarContent>
           <NavbarContent justifyContent="flex-end" spacing="2">
-            <NavbarItem>
-              <SignedIn>
-                <UserButton />
-              </SignedIn>
-              <SignedOut>
-                <SignInButton />
-              </SignedOut>
-            </NavbarItem>
             <NavbarItem onClick={toggleColorMode}>
               {colorMode === "dark" ? (
                 // Dark mode is on
@@ -72,6 +64,14 @@ export function Navigation({ children }: { children: React.ReactNode }) {
                   variant="ghost"
                 />
               )}
+            </NavbarItem>
+            <NavbarItem>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+              <SignedOut>
+                <SignInButton />
+              </SignedOut>
             </NavbarItem>
           </NavbarContent>
         </Navbar>
