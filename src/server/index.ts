@@ -1,42 +1,22 @@
-import { publicProcedure, router } from "./trpc";
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
+import { authorProcedure, publicProcedure, router } from "./trpc";
+import { eq } from "drizzle-orm";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
-
-import type { Post } from "@/model";
-
-const POST_EXT = ".md";
-const POST_DIR = "./posts";
-
-/**
- * Loads and returns an array of posts from the "./posts" directory.
- */
-const loadPosts = () => {
-  const posts = fs
-    .readdirSync(POST_DIR)
-    .filter((file) => path.extname(file) === POST_EXT)
-    .map((file) => loadPostBySlug(path.basename(file, POST_EXT)));
-  return posts;
-};
-
-const loadPostBySlug = (slug: string) => {
-  const filePath = path.join(POST_DIR, slug + POST_EXT);
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`Post "${slug}" does not exist`);
-  }
-
-  const contents = fs.readFileSync(filePath, "utf8");
-  const post = matter(contents);
-  return post;
-};
+import { db, Posts } from "@/db";
 
 export const appRouter = router({
   getPosts: publicProcedure.query(async (params) => {
-    return loadPosts();
+    const posts = await db.select().from(Posts);
+    return posts;
   }),
   getPostBySlug: publicProcedure.input(z.string()).query(async (params) => {
-    return loadPostBySlug(params.input);
+    const posts = await db.select().from(Posts).where(eq(Posts.slug, params.input));
+    return posts[0] || {}; // TODO (kevin): Eww, fix this.
+  }),
+  createPost: authorProcedure.input(createInsertSchema(Posts)).mutation(async (params) => {
+    params.input.createdOn = new Date();
+    const post = await db.insert(Posts).values(params.input);
+    return post;
   }),
 });
 
