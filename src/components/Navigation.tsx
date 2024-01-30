@@ -8,28 +8,28 @@ import {
   NavbarItem,
   NavbarLink,
 } from "@saas-ui/react";
-
 import { Box, Container } from "@chakra-ui/react";
-
 import { UserButton, SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
 
 export function Navigation({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
   return (
     <AppShell
       navbar={
         <Navbar position="sticky">
-          <NavbarBrand></NavbarBrand>
+          <NavbarBrand>ABC DevBlog</NavbarBrand>
           <NavbarContent>
             <NavbarItem>
-              <NavbarLink isActive aria-current="page" href="/">
+              <NavbarLink isActive={pathname === "/"} href="/">
                 Home
               </NavbarLink>
             </NavbarItem>
             <NavbarItem>
-              <NavbarLink href="#">About</NavbarLink>
-            </NavbarItem>
-            <NavbarItem>
-              <NavbarLink href="#">Contact</NavbarLink>
+              <NavbarLink isActive={pathname === "/about"} href="/about">
+                About
+              </NavbarLink>
             </NavbarItem>
           </NavbarContent>
           <NavbarContent justifyContent="flex-end" spacing="2">
