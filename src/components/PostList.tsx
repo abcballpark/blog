@@ -7,9 +7,9 @@ import {
   StructuredListCell,
 } from "@saas-ui/react";
 import TimeAgo from "timeago-react";
-
 import { useRouter } from "next/navigation";
 
+import { POSTS_BASE_URL } from "@/constants";
 import { trpc } from "@/trpc";
 
 export function PostList() {
@@ -22,7 +22,7 @@ export function PostList() {
         {getPosts.data?.map((post) => (
           <StructuredListItem
             key={post.slug}
-            onClick={() => router.push(post.slug || "#")}
+            onClick={() => router.push(`${POSTS_BASE_URL}/${post.slug}` || "#")}
           >
             <StructuredListCell>
               <Text fontWeight="bold">{post.title}</Text>
